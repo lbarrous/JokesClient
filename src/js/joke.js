@@ -1,7 +1,11 @@
 import spinner from "./spinner";
 import request from "./request";
+import "regenerator-runtime/runtime";
+import "./notifications";
+import Dismissible from "./notifications";
 
 const cardsContainer = document.getElementById("cards-container");
+const errorNotification = document.getElementById("error-notification");
 
 export default class Joke {
   constructor(type, setup, punchline) {
@@ -11,44 +15,58 @@ export default class Joke {
     this.numberOfClicks = 0;
   }
 
-  changeJoke() {
+  changeJoke(newJoke) {
     this.numberOfClicks = 0;
-    /* this.type = newJoke.type;
-    this.setup = newJoke.setup;
-    this.punchline = newJoke.punchline; */
-    document.getElementById("setup").innerHTML = "EEE";
-    document.getElementById("punchline").innerHTML = "OOOO";
+    document.getElementById("setup").innerHTML = newJoke.setup;
+    document.getElementById("punchline").innerHTML = newJoke.punchline;
   }
 
-  fetchNewJoke() {
+  resetJoke() {
+    this.numberOfClicks = 0;
+    document.getElementById("setup").innerHTML = this.setup;
+    document.getElementById("punchline").innerHTML = this.punchline;
+  }
+
+  async fetchNewJoke() {
     this.numberOfClicks = 0;
     spinner.showSpinner();
-    this.changeJoke();
     try {
-      //const newJoke = await request.get("localhost");
-      this.changeJoke();
+      const newJoke = await request.get("hola");
+      this.changeJoke(newJoke);
       spinner.hideSpinner();
     } catch (error) {
-      console.log("error");
+        this.changeJoke({
+            setup: "EEEE",
+            punchline:"AAAA"
+        });
+      this.setNotificationError();
+      this.flipJoke();
       spinner.hideSpinner();
     }
   }
 
-  flipJoke(cardElement) {
-    this.numberOfClicks++;
-    cardElement.classList.toggle("flip");
+  flipJoke() {
+    this.card.classList.toggle("flip");
   }
 
-  handleFlip(cardElement) {
-    this.numberOfClicks >= 1 ? this.fetchNewJoke() : this.flipJoke(cardElement);
+  handleFlip() {
+    this.numberOfClicks++;
+    this.numberOfClicks >= 2 ? this.fetchNewJoke() : this.flipJoke();
+  }
+
+  setNotificationError() {
+    const dismissible = new Dismissible(
+      document.querySelector("#notifications-container")
+    );
+    dismissible.error("Oops! Something went wrong. Try again later");
   }
 
   createJokeWrapper() {
-    const card = document.createElement("div");
-    card.classList.add("card");
-    card.classList.add("active");
+    this.card = document.createElement("div");
+    this.card.classList.add("card");
+    this.card.classList.add("active");
 
-    card.innerHTML = `
+    this.card.innerHTML = `
         <div class="inner-card">
               <div class="inner-card-front">
                 <p id="setup" >${this.setup}</p>
@@ -58,9 +76,9 @@ export default class Joke {
               </div>
             </div>`;
 
-    card.addEventListener("click", () => {
-      this.handleFlip(card);
+    this.card.addEventListener("click", () => {
+      this.handleFlip();
     });
-    cardsContainer.appendChild(card);
+    cardsContainer.appendChild(this.card);
   }
 }

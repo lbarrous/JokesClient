@@ -11,6 +11,8 @@
     />
     <link rel="stylesheet" type="text/css" href="../src/css/joke.css">
     <link rel="stylesheet" type="text/css" href="../src/css/spinner.css">
+    <link rel="stylesheet" type="text/css" href="../src/css/notifications.css">
+    <link href="https://cdn.lineicons.com/2.0/LineIcons.css" rel="stylesheet">
   </head>
   <body>
     <h1>
@@ -25,11 +27,13 @@
 
     </div>
 
-    <div class="navigation">
-      <button id="next" class="nav-button">
-        Next joke
-        <i class="fas fa-arrow-right"></i>
-      </button>
-    </div>
+<div id="notifications-container">
+  <div
+  id="error-notification"
+    data-component="dismissible-item"
+    data-type="error"
+    data-value="<strong>Error!</strong> Please try again."
+  ></div>
+</div>
   </body>
 </html>
