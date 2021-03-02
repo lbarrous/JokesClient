@@ -2,9 +2,34 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Welcome to Webpack</title>
+    <title>Jokes client App</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"
+      integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ="
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" type="text/css" href="../src/css/joke.css">
+    <link rel="stylesheet" type="text/css" href="../src/css/spinner.css">
   </head>
   <body>
-    <code>To start edit './src/index.js'</code>
+    <h1>
+      Jokes
+    </h1>
+
+    <div id="loading" class="loading">
+        Loading&#8230;
+      </div>
+
+    <div id="cards-container" class="cards">
+
+    </div>
+
+    <div class="navigation">
+      <button id="next" class="nav-button">
+        Next joke
+        <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
   </body>
 </html>
