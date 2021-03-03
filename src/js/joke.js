@@ -3,6 +3,7 @@ import request from "./request";
 import "regenerator-runtime/runtime";
 import "./notifications";
 import Dismissible from "./notifications";
+import { SERVER_URL } from "./constants";
 
 const errorNotification = document.getElementById("error-notification");
 
@@ -32,7 +33,7 @@ export default class Joke {
   fetchNewJoke() {
     this.numberOfClicks = 0;
     spinner.showSpinner();
-    request.get("hola").then(newJoke => {
+    request.get(SERVER_URL).then(newJoke => {
         this.changeJoke(newJoke);
         spinner.hideSpinner();
     }).catch(e => {
