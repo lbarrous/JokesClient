@@ -4,7 +4,6 @@ import "regenerator-runtime/runtime";
 import "./notifications";
 import Dismissible from "./notifications";
 
-const cardsContainer = document.getElementById("cards-container");
 const errorNotification = document.getElementById("error-notification");
 
 export default class Joke {
@@ -17,8 +16,11 @@ export default class Joke {
 
   changeJoke(newJoke) {
     this.numberOfClicks = 0;
-    document.getElementById("setup").innerHTML = newJoke.setup;
-    document.getElementById("punchline").innerHTML = newJoke.punchline;
+    this.type = newJoke.type;
+    this.setup = newJoke.setup;
+    this.punchline = newJoke.punchline;
+    document.getElementById("setup").innerHTML = this.setup;
+    document.getElementById("punchline").innerHTML = this.punchline;
   }
 
   resetJoke() {
@@ -27,22 +29,17 @@ export default class Joke {
     document.getElementById("punchline").innerHTML = this.punchline;
   }
 
-  async fetchNewJoke() {
+  fetchNewJoke() {
     this.numberOfClicks = 0;
     spinner.showSpinner();
-    try {
-      const newJoke = await request.get("hola");
-      this.changeJoke(newJoke);
-      spinner.hideSpinner();
-    } catch (error) {
-        this.changeJoke({
-            setup: "EEEE",
-            punchline:"AAAA"
-        });
-      this.setNotificationError();
-      this.flipJoke();
-      spinner.hideSpinner();
-    }
+    request.get("hola").then(newJoke => {
+        this.changeJoke(newJoke);
+        spinner.hideSpinner();
+    }).catch(e => {
+        this.setNotificationError();
+        this.flipJoke();
+        spinner.hideSpinner();
+    });
   }
 
   flipJoke() {
@@ -56,7 +53,7 @@ export default class Joke {
 
   setNotificationError() {
     const dismissible = new Dismissible(
-      document.querySelector("#notifications-container")
+        errorNotification
     );
     dismissible.error("Oops! Something went wrong. Try again later");
   }
@@ -79,6 +76,6 @@ export default class Joke {
     this.card.addEventListener("click", () => {
       this.handleFlip();
     });
-    cardsContainer.appendChild(this.card);
+    document.getElementById("cards-container").appendChild(this.card);
   }
 }

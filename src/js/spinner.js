@@ -1,8 +1,6 @@
-const loadingDiv = document.getElementById("loading");
-
 class Spinner {
   constructor() {
-    loadingDiv.addEventListener("click", () => {
+    document.getElementById("loading").addEventListener("click", () => {
       this.hideSpinner();
     });
   }
