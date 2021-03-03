@@ -1,1 +1,1 @@
-export const SERVER_URL = "localhost:8080/api/jokes";
+export const SERVER_URL = "http://localhost:8181/api/jokes?type=general";

@@ -121,9 +121,7 @@ h1 button {
   transform: rotateX(180deg);
 }
 
-.inner-card-front::after,
-.inner-card-back::after {
-  content: "Flip it!";
+#typeFront, #typeBack {
   font-family: "Font Awesome 5 Free", Lato, sans-serif;
   position: absolute;
   top: 10px;
@@ -133,18 +131,6 @@ h1 button {
   color: #ddd;
 }
 
-.navigation {
-  display: flex;
-  margin: 20px 0;
-}
-
-.navigation .nav-button {
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.navigation p {
-  margin: 0 25px;
+#setup, #punchline {
+  padding: 1rem;
 }

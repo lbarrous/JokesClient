@@ -6,11 +6,11 @@ class Spinner {
   }
 
   showSpinner() {
-    loadingDiv.style.visibility = "visible";
+    document.getElementById("loading").style.visibility = "visible";
   }
 
   hideSpinner() {
-    loadingDiv.style.visibility = "hidden";
+    document.getElementById("loading").style.visibility = "hidden";
   }
 }
 

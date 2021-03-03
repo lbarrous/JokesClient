@@ -1,4 +1,5 @@
 import Joke from "./js/joke";
 
-const joke = new Joke("general", "setup", "punchline");
+const joke = new Joke("", "", "");
 joke.createJokeWrapper();
+joke.fetchNewJoke(true);

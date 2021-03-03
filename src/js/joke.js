@@ -20,21 +20,27 @@ export default class Joke {
     this.type = newJoke.type;
     this.setup = newJoke.setup;
     this.punchline = newJoke.punchline;
+    this.updateJokeText();
+  }
+
+  updateJokeText() {
     document.getElementById("setup").innerHTML = this.setup;
     document.getElementById("punchline").innerHTML = this.punchline;
+    document.getElementById("typeFront").innerHTML = this.type;
+    document.getElementById("typeBack").innerHTML = this.type;
   }
 
   resetJoke() {
     this.numberOfClicks = 0;
-    document.getElementById("setup").innerHTML = this.setup;
-    document.getElementById("punchline").innerHTML = this.punchline;
+    this.updateJokeText();
   }
 
-  fetchNewJoke() {
+  fetchNewJoke(firstCall = false) {
     this.numberOfClicks = 0;
     spinner.showSpinner();
-    request.get(SERVER_URL).then(newJoke => {
-        this.changeJoke(newJoke);
+    request.get(SERVER_URL).then(newJokes => {
+        this.changeJoke(newJokes.jokes);
+        !firstCall && this.flipJoke();
         spinner.hideSpinner();
     }).catch(e => {
         this.setNotificationError();
@@ -63,14 +69,15 @@ export default class Joke {
     this.card = document.createElement("div");
     this.card.classList.add("card");
     this.card.classList.add("active");
-
     this.card.innerHTML = `
         <div class="inner-card">
               <div class="inner-card-front">
                 <p id="setup" >${this.setup}</p>
+                <p id="typeFront" >${this.type}</p>
               </div>
               <div class="inner-card-back">
                 <p id="punchline" >${this.punchline}</p>
+                <p id="typeBack" >${this.type}</p>
               </div>
             </div>`;
 

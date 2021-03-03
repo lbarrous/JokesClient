@@ -8,9 +8,9 @@ const HTTP_METHOD = {
 class RequestUtils {
   sendRequest(params) {
     return fetch(params.URL, {
-      credentials: "include",
       method: params.method,
       headers: {
+        'Access-Control-Allow-Origin': "*",
         // 1. Fix for IE: Use only plain object instead of new Headers()
         // 2. Fix for IE: headers must not be undefined (even for GET)
         "Content-Type": "application/json"
